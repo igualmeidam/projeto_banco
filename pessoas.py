@@ -51,24 +51,20 @@ class Cliente(Pessoa):
     def __init__(self, nome, idade, cpf):
         super().__init__(nome, idade, cpf)
         # Criação da lista para receber as contas dos clientes
-        self.__contas = []
+        self.contas = None
+
+    @property
+    def contas(self):
+        return self.__contas
+
+    @contas.setter
+    def contas(self, recebe_contas):
+        self.__contas = recebe_contas
 
     # Fazer a agregação da conta com o cliente em uma lista
     def nova_conta(self, conta):
-        self.__contas.append(conta)
-
-    # Faz a consulta das contas agregadas pelo cliente
-    def consultar_contas(self):
-        if not len(self.__contas) >= 2:
-            print(f'Possui apenas {len(self.__contas)} conta')
-        else:
-            print(f'Possui {len(self.__contas)} contas')
-        for conta in self.__contas:
-            print(f'{self.__nome} possui uma {conta.__class__.__name__}')
-            print(f'Número da agência: {conta.agencia}')
-            print('fNumero da conta: {conta.conta}')
-            print(f'Saldo Atual: {conta.saldo}')
-
+        self.__contas = conta
+        
     def informacoes_cliente(self):
         print(f'Nome: {self.nome}')
         print(f'Idade: {self.idade}')

@@ -1,36 +1,44 @@
 class Banco:
     def __init__(self, nome):
-        self._nome = nome
-        self._clientes = []
-        self._contas = []
-        self._clienteconta = []
+        self.nome = nome
+        self.__cpf_clientes = []
+        self.__agencias = [1111, 2222, 3333]
+        self.__contas = []
+        self.__clienteconta = {}
 
-    def novo_clienteconta(self, cliente, conta):
-        self._clienteconta.append((cliente, conta))
-        for cliente, conta in self._clienteconta:
-            print(cliente, conta)
-            print(type(cliente, conta))
+    @property
+    def nome(self):
+        return self.__nome
 
-    def novo_cliente(self, cliente):
-        self._clientes.append(cliente)
-        for cliente in self._clientes:
-            print(cliente.informacoes_cliente())
-            print(type(cliente))
+    # Recebe o nome do banco permitindo apenas uma string com letras
+    @nome.setter
+    def nome(self, recebe_nome_banco):
+        if not recebe_nome_banco.isalpha():
+            raise Exception('Nome do banco inválido!')
+        self.__nome = recebe_nome_banco
 
-    def nova_conta(self, conta):
-        self._contas.append(conta)
-        for conta in self._contas:
-            print(conta)
-            print(type(conta))
+    # Adiciona o CPF do cliente em uma lista e checa casos de repetição
+    def banco_novo_cpf_cliente(self, cliente):
+        for cpf in self.__cpf_clientes:
+            if cliente.cpf == cpf:
+                raise Exception('Cliente já cadastrado!')
+        self.__cpf_clientes.append(cliente.cpf)
+         
+    #  Adiciona o numero da conta em uma lista e checa casos de repetição
+    def banco_nova_conta_cliente(self, conta):
+        for conta_cadastrada in self.__contas:
+            if conta.conta == conta_cadastrada:
+                raise Exception('Conta já cadastrada!')
+        self.__contas.append(conta.conta)
 
-    def ver_clientes(self):
-        for clientes in self._clientes:
-            print(f'Banco {self._nome}')
-            clientes.informacoes_cliente()
-            clientes.consultar_contas()
-            print('')
+    # Adiciona o cliente e a conta respectiva em um dicionário
+    def banco_novo_cliente_conta(self, cliente, conta):
+        for clientes in self.__clienteconta.keys():
+            if clientes == cliente:
+                raise Exception('Cliente ja cadastrado!')
+        self.__clienteconta[cliente] = conta
 
-    def ver_contas(self):
-        print(f'Banco {self._nome}')
-        for contas in self._contas:
-            contas.detalhes()
+    def autoriza_saque(self, cliente):
+        if cliente not in self.__clienteconta.keys():
+            raise Exception('Cliente não cadastrado!')
+        return True

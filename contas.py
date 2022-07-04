@@ -66,18 +66,14 @@ class ContaCorrente(Conta):
             raise Exception('Seu saldo é insuficiente!')
         self.saldo -= valor
         print(f'Você sacou {valor}R$')
-        print(f'Seu saldo atual disponivel é de {self.saldo}R$\n'
-              f'Saldo disponível para saque: {self.limite + self.saldo}R$\n'
-              f'Limite: {self.limite}R$')
+        self.detalhes()
 
     def depositar(self, valor):
         if not isinstance(valor, (float, int)):
             raise ValueError('O valor para depósito precisa ser numérico')
         self.saldo += valor
         print(f'Você depositou {valor}R$')
-        print(f'Seu saldo atual disponível é de {self.saldo}R$\n'
-              f'Saldo disponível para saque: {self.limite + self.saldo}R$\n'
-              f'Limite: {self.limite}R$')
+        self.detalhes()
 
     def detalhes(self):
         print(f'Tipo da conta: {__class__.__name__}')
@@ -98,14 +94,14 @@ class ContaPoupanca(Conta):
             raise Exception('Seu saldo é insuficiente!')
         self.saldo -= valor
         print(f'Você sacou {valor}R$')
-        print(f'Seu saldo restante disponível é {self.saldo}R$')
+        self.detalhes()
 
     def depositar(self, valor):
         if not isinstance(valor, (float, int)):
             raise ValueError('O valor para depósito precisa ser numérico')
         self.saldo += valor
         print(f'Você depositou {valor}R$')
-        print(f'Seu saldo restante disponível é {self.saldo}R$')
+        self.detalhes()
 
     def detalhes(self):
         print(f'Tipo da conta: {__class__.__name__}')
