@@ -46,12 +46,17 @@ class Pessoa(ABC):
         else:
             raise Exception('Seu CPF é invalido!')
 
+    def informacoes_pessoa(self):
+        print(f'Nome: {self.nome}')
+        print(f'Idade: {self.idade}')
+        print(f'CPF: {self.cpf}')
+
 
 class Cliente(Pessoa):
     def __init__(self, nome, idade, cpf):
         super().__init__(nome, idade, cpf)
         # Criação da lista para receber as contas dos clientes
-        self.contas = None
+        self.contas = []
 
     @property
     def contas(self):
@@ -63,9 +68,14 @@ class Cliente(Pessoa):
 
     # Fazer a agregação da conta com o cliente em uma lista
     def nova_conta(self, conta):
-        self.__contas = conta
-        
-    def informacoes_cliente(self):
-        print(f'Nome: {self.nome}')
-        print(f'Idade: {self.idade}')
-        print(f'CPF: {self.cpf}')
+        self.__contas.append(conta)
+
+    def pessoa_consulta_contas(self):
+        indice = 0
+        print(f'{self.nome} possui {len(self.contas)} conta(s)')
+        print('')
+        for conta in self.contas:
+            print(f'índice para acessar: {indice}')
+            conta.detalhes()
+            print(30 * '-')
+            indice += 1

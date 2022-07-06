@@ -13,6 +13,10 @@ class Conta(ABC):  # Criação da super classe abstrata
 
     @agencia.setter
     def agencia(self, recebe_agencia):
+        if not isinstance(recebe_agencia, (int)):
+            raise ValueError('Valor tem de ser numérico!')
+        if recebe_agencia >= 10000:
+            raise Exception('Número da agência inválida!')
         self.__agencia = recebe_agencia
 
     @property
@@ -21,6 +25,12 @@ class Conta(ABC):  # Criação da super classe abstrata
 
     @conta.setter
     def conta(self, recebe_conta):
+        if not isinstance(recebe_conta, (int)):
+            raise ValueError('Valor tem de ser numérico!')
+        recebe_conta = str(recebe_conta)
+        if len(recebe_conta) != 10:
+            raise Exception('Número da conta inválido!')
+        recebe_conta = int(recebe_conta)
         self.__conta = recebe_conta
 
     @property
@@ -33,16 +43,21 @@ class Conta(ABC):  # Criação da super classe abstrata
             raise ValueError('Saldo precisa ser numérico')
         self.__saldo = valor
 
-    @abstractmethod
     def depositar(self, valor):
-        pass
+        if not isinstance(valor, (float, int)):
+            raise ValueError('O valor para depósito precisa ser numérico')
+        self.saldo += valor
+        print(f'Você depositou {valor}R$')
+        print(f'Saldo:{self.saldo}')
+
+    def detalhes(self):
+        print(f'Tipo da conta: {__class__.__name__}')
+        print(f'Agência:{self.agencia}', end=' ')
+        print(f' Conta:{self.conta}', end=' ')
+        print(f' Saldo:{self.saldo}', end=' ')
 
     @abstractmethod
     def sacar(self, valor):
-        pass
-
-    @abstractmethod
-    def detalhes(self):
         pass
 
 
@@ -59,22 +74,6 @@ class ContaCorrente(Conta):
     def limite(self, recebe_limite):
         self.__limite = recebe_limite
 
-    def sacar(self, valor):
-        if not isinstance(valor, (float, int)):
-            raise ValueError('O valor para depósito precisa ser numérico')
-        if (self.saldo + self.limite) < valor:
-            raise Exception('Seu saldo é insuficiente!')
-        self.saldo -= valor
-        print(f'Você sacou {valor}R$')
-        self.detalhes()
-
-    def depositar(self, valor):
-        if not isinstance(valor, (float, int)):
-            raise ValueError('O valor para depósito precisa ser numérico')
-        self.saldo += valor
-        print(f'Você depositou {valor}R$')
-        self.detalhes()
-
     def detalhes(self):
         print(f'Tipo da conta: {__class__.__name__}')
         print(f'Agência:{self.agencia}', end=' ')
@@ -82,11 +81,26 @@ class ContaCorrente(Conta):
         print(f' Saldo:{self.saldo}', end=' ')
         print(f' Limite:{self.limite}')
 
+    def sacar(self, valor):
+        if not isinstance(valor, (float, int)):
+            raise ValueError('O valor para depósito precisa ser numérico')
+        if (self.saldo + self.limite) < valor:
+            raise Exception('Seu saldo é insuficiente!')
+        self.saldo -= valor
+        print(f'Você sacou {valor}R$')
+        print(f'Saldo:{self.saldo}')
+        print(f'Limite:{self.limite}')
+
+    def depositar(self, valor):
+        if not isinstance(valor, (float, int)):
+            raise ValueError('O valor para depósito precisa ser numérico')
+        self.saldo += valor
+        print(f'Você depositou {valor}R$')
+        print(f'Saldo:{self.saldo}')
+        print(f'Limite:{self.limite}')
+
 
 class ContaPoupanca(Conta):
-    def __init__(self, agencia, conta, saldo=0):
-        super().__init__(agencia, conta, saldo)
-
     def sacar(self, valor):
         if not isinstance(valor, (float, int)):
             raise ValueError('O valor para depósito precisa ser numérico')
@@ -94,14 +108,7 @@ class ContaPoupanca(Conta):
             raise Exception('Seu saldo é insuficiente!')
         self.saldo -= valor
         print(f'Você sacou {valor}R$')
-        self.detalhes()
-
-    def depositar(self, valor):
-        if not isinstance(valor, (float, int)):
-            raise ValueError('O valor para depósito precisa ser numérico')
-        self.saldo += valor
-        print(f'Você depositou {valor}R$')
-        self.detalhes()
+        print(f'Saldo:{self.saldo}')
 
     def detalhes(self):
         print(f'Tipo da conta: {__class__.__name__}')
