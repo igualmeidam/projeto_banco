@@ -11,7 +11,7 @@ if __name__ == "__main__":
 
     # Criação das Contas com agência e conta
     conta1 = ContaCorrente(9999, 1234567891)  # Pode definir saldo e limite
-    conta2 = ContaPoupanca(9999, 1234567891)  # Só pode definir saldo
+    conta2 = ContaPoupanca(9999, 1234567893)  # Só pode definir saldo
 
     # Criação do Banco recebendo nome como atributo
     banco1 = Banco('Antonio')
@@ -19,7 +19,11 @@ if __name__ == "__main__":
     # Objeto cliente agrega as contas
     pessoa1.nova_conta(conta1)
     pessoa1.nova_conta(conta2)
+    pessoa2.nova_conta(conta2)
 
-    # Visualiza os índices para acessar a conta desejada
-    pessoa1.pessoa_consulta_contas()
-    pessoa1.contas[0].sacar(20)
+    # Cadastra os clientes e contas no sistema banco
+    banco1.banco_cadastra_cliente_conta(pessoa1, conta1)
+    banco1.banco_cadastra_cliente_conta(pessoa2, conta2)
+
+    # Acesso através da agregação
+    banco1.clientes[0].contas[0].sacar(30)
