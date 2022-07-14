@@ -68,14 +68,14 @@ class Cliente(Pessoa):
 
     # Fazer a agregação da conta com o cliente em uma lista
     def nova_conta(self, conta):
+        if conta in self.__contas:
+            raise Exception('Conta já cadastrada!')
         self.__contas.append(conta)
 
     def pessoa_consulta_contas(self):
-        indice = 0
         print(f'{self.nome} possui {len(self.contas)} conta(s)')
         print('')
-        for conta in self.contas:
+        for indice, conta in enumerate(self.contas):
             print(f'índice para acessar: {indice}')
             conta.detalhes()
             print(30 * '-')
-            indice += 1

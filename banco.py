@@ -4,7 +4,7 @@ class Banco:
         self.clientes = []
         self.__cpf_clientes = []
         self.__contas = []
-        self.__numero_contas = []
+        self.__nm = []
 
     @property
     def nome(self):
@@ -49,10 +49,10 @@ class Banco:
 
     #  Adiciona o numero da conta do cliente em uma lista e checa por duplicata
     def banco_novo_numero_conta(self, recebe_conta):
-        for conta_cadastrada in self.__numero_contas:
+        for conta_cadastrada in self.__nm:
             if recebe_conta.conta == conta_cadastrada:
                 raise Exception('Numero da conta já cadastrado no sistema!')
-        self.__numero_contas.append(recebe_conta.conta)
+        self.__nm.append(recebe_conta.conta)
 
     def banco_cadastra_cliente_conta(self, recebe_cliente, recebe_conta):
         self.banco_novo_cliente(recebe_cliente)
@@ -61,9 +61,18 @@ class Banco:
         self.banco_novo_numero_conta(recebe_conta)
 
     def consulta_cliente_contas(self):
-        indice = 0
-        for cliente in self.__clientes:
+        for indice, cliente in enumerate(self.__clientes):
             print(f'indice para acessar: {indice}')
             cliente.informacoes_pessoa()
             cliente.pessoa_consulta_contas()
-            indice += 1
+
+    def autoriza_saque_cliente(self, recebe_cliente, indice_co):
+        if recebe_cliente not in self.clientes:
+            raise Exception('Cliente não cadastrado!')
+        if recebe_cliente.cpf not in self.__cpf_clientes:
+            raise Exception('CPF do cliente não cadastrado!')
+        if recebe_cliente.contas[indice_co] not in self.__contas:
+            raise Exception('Conta não cadastrada')
+        if recebe_cliente.contas[indice_co].conta not in self.__nm:
+            raise Exception('Numero da conta não cadastrado!')
+        return True
