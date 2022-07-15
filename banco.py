@@ -76,3 +76,13 @@ class Banco:
         if recebe_cliente.contas[indice_co].conta not in self.__nm:
             raise Exception('Numero da conta não cadastrado!')
         return True
+
+    def banco_saca_deposita(self, cliente, ind_cl, ind_co, ind_op, val):
+        if not cliente == self.clientes[ind_cl]:
+            raise Exception('Verificação para o cliente errado!')
+        if self.autoriza_saque_cliente(cliente, ind_co):
+            print(f'Acesso ao cliente {cliente.nome}')
+            if ind_op == 1:
+                self.clientes[ind_cl].contas[ind_co].depositar(val)
+            if ind_op == 2:
+                self.clientes[ind_cl].contas[ind_co].sacar(val)
