@@ -1,3 +1,9 @@
+""" Módulo de criação do objeto pessoa.
+
+Esse módulo é repensável pela criação do objeto pessoa
+com seus parâmetros e métodos, fazendo também a verificação
+se os parâmetros recebidos estão corretos.
+"""
 from abc import abstractmethod, ABC
 from validador_cpf import remover_caracteres, valida_cpf
 
@@ -13,7 +19,8 @@ class Pessoa(ABC):
     def nome(self):
         return self.__nome
 
-    @nome.setter  # Recebe o nome, e verifica se não é um número
+    # Recebe o nome, e verifica se não é um número
+    @nome.setter
     def nome(self, recebe_nome):
         if not isinstance(recebe_nome, str):
             raise Exception('Seu nome não pode ser um número!')
@@ -72,6 +79,7 @@ class Cliente(Pessoa):
             raise Exception('Conta já cadastrada!')
         self.__contas.append(conta)
 
+    # Itera sobre as contas na lista mostrando suas informações
     def pessoa_consulta_contas(self):
         print(f'{self.nome} possui {len(self.contas)} conta(s)')
         print('')

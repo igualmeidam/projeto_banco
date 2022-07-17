@@ -1,3 +1,9 @@
+""" Módulo de criação das contas, corrente e poupança.
+
+Esse módulo é responsável pela criação e especificação das classes de contas,
+seja ela uma conta corrente ou poupança, através da herança da super
+classe Conta.
+"""
 from abc import abstractmethod, ABC
 
 

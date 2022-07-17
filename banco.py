@@ -1,3 +1,12 @@
+
+""" Módulo de criação da classe Banco.
+
+Módulo de criação da classe banco, que agrega clientes e contas para fazer
+a verificação de os mesmos estão cadastrados em seu "sistema", e através
+dele realizar o saque caso as verificações retornem válidas.
+"""
+
+
 class Banco:
     def __init__(self, nome):
         self.nome = nome
@@ -54,18 +63,21 @@ class Banco:
                 raise Exception('Numero da conta já cadastrado no sistema!')
         self.__nm.append(recebe_conta.conta)
 
+    # Agrega as funções de inserção do cliente ao banco
     def banco_cadastra_cliente_conta(self, recebe_cliente, recebe_conta):
         self.banco_novo_cliente(recebe_cliente)
         self.banco_novo_cpf_cliente(recebe_cliente)
         self.banco_nova_conta(recebe_conta)
         self.banco_novo_numero_conta(recebe_conta)
 
+    # Fas a consulta dos clientes e das contas com seus índices
     def consulta_cliente_contas(self):
         for indice, cliente in enumerate(self.__clientes):
             print(f'indice para acessar: {indice}')
             cliente.informacoes_pessoa()
             cliente.pessoa_consulta_contas()
 
+    # Faz a verificação e a autorização do saque
     def autoriza_saque_cliente(self, recebe_cliente, indice_co):
         if recebe_cliente not in self.clientes:
             raise Exception('Cliente não cadastrado!')
@@ -77,12 +89,18 @@ class Banco:
             raise Exception('Numero da conta não cadastrado!')
         return True
 
-    def banco_saca_deposita(self, cliente, ind_cl, ind_co, ind_op, val):
+    # Faz o saque através do banco
+    def banco_sac(self, cliente, ind_cl, ind_co, val):
         if not cliente == self.clientes[ind_cl]:
             raise Exception('Verificação para o cliente errado!')
         if self.autoriza_saque_cliente(cliente, ind_co):
             print(f'Acesso ao cliente {cliente.nome}')
-            if ind_op == 1:
-                self.clientes[ind_cl].contas[ind_co].depositar(val)
-            if ind_op == 2:
-                self.clientes[ind_cl].contas[ind_co].sacar(val)
+            self.clientes[ind_cl].contas[ind_co].sacar(val)
+
+    # Faz o depósito através do banco
+    def banco_dep(self, cliente, ind_cl, ind_co, val):
+        if not cliente == self.clientes[ind_cl]:
+            raise Exception('Verificação para o cliente errado!')
+        if self.autoriza_saque_cliente(cliente, ind_co):
+            print(f'Acesso ao cliente {cliente.nome}')
+            self.clientes[ind_cl].contas[ind_co].depositar(val)

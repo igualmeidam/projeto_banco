@@ -3,7 +3,6 @@ from contas import ContaCorrente
 from banco import Banco
 from contas import ContaPoupanca
 
-
 if __name__ == "__main__":
     # Criação da Pessoa
     pessoa1 = Cliente('Igor', 69, '38051234855')
@@ -26,7 +25,10 @@ if __name__ == "__main__":
     banco1.banco_cadastra_cliente_conta(pessoa1, conta1)
     banco1.banco_cadastra_cliente_conta(pessoa2, conta3)
 
+    # instancia o banco realizando a consulta de cls e contas agregadas
     banco1.consulta_cliente_contas()
 
-    #                       (cliente,ind_cl, ind_co, ind_op, val)
-    banco1.banco_saca_deposita(pessoa2, 1, 0, 2, 30)
+    # Realiza o saque recebendo:
+    # O cliente, indice do cl, índice da conta, e o valor p/ a operação
+    banco1.banco_sac(pessoa1, 0, 0, 10)
+    banco1.banco_sac(pessoa2, 1, 0, 30)
